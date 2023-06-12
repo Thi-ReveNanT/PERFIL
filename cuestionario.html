@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="footer.css">
+    <title>Cuestionario</title>
+</head>
+<body>
+    <div style="margin: 24px;">
+        <nav class="navbar navbar-light" style="background-color: black;">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="menu.html">Menu</a>
+                    </li>
+                    <li>
+                        <a href="pedido.html">Pedido</a>
+                    </li>
+                    <li>
+                        <a href="contacto.html">Contacto</a>
+                    </li>
+                    <li>
+                        <a href="movies.html">Movies</a>
+                    </li>
+                    <li class="active">
+                        <a href="cuestionario.html">Cuestionario</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="quiz-container" id="quiz">
+            <div class="quiz-header">
+                <div class="image-container">
+                    <img src="imagen.jpg" alt="imagen" id="question-image" style="width:250px; height:auto">
+                </div>
+                <div class="preguntas">
+                <h2 id="question">Quien es mejor personaje?</h2>
+                <ul>
+                    <li>
+                        <input type="radio" name="answer" id="a" class="answer">
+                        <label for="a" id="a_text">Dante(el de la foto)</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="answer" id="b" class="answer">
+                        <label for="b" id="a_text">Mickey Mouse</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="answer" id="c" class="answer">
+                        <label for="c" id="a_text">Hello Kitty</label>
+                    </li>
+                    <li>
+                        <input type="radio" name="answer" id="d" class="answer">
+                        <label for="d" id="a_text">Bluey</label>
+                    </li>
+                </ul>
+
+            </div>
+            <button id="submit">Siguiente</button>
+
+        </div>
+
+    </div>
+    <style>
+        body{
+            align-items: center;
+            justify-content: center;
+            overflow: 0;
+            margin: 0;
+        }
+        .quiz-container{
+            background-color: black;
+            border-radius: 10px;
+        }
+        .preguntas{
+            color: aliceblue;
+        }
+        .quiz-header{
+            padding: 15px;
+        }
+        h2{
+            padding: 10px;
+            text-align: center;
+            margin: 0;
+        }
+        ul{
+            list-style: none;
+            padding: 0;
+            
+        }
+        ul li{
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        ul li label{
+            cursor: pointer;
+        }
+        button{
+            background-color: darkgray;
+            color: aliceblue;
+            border: none;
+            display:block;
+            width: 100%;
+            cursor: pointer;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+        }
+    </style>
+    <script>
+        const quizData = [
+            {
+                question:"Quien es mejor personaje?",
+                image:  "quiz1.jpg",
+                a:"Dante Sparda",
+                b:"Mickey Mouse",
+                c:"Hello Kitty",
+                d:"Bluey",
+                correct:"a",
+            },
+        ];
+        const quiz = document.getElementById('quiz');
+        const answerEls = document.querySelectorAll('.answer');
+        const questionEl = document.getElementById('question');
+        const submitBtn = document.getElementById('submit');
+
+        const a_text = document.getElementById('a_text');
+        const b_text = document.getElementById('b_text');
+        const c_text = document.getElementById('c_text');
+        const d_text = document.getElementById('d_text');
+
+        let currentQuiz = 0;
+        let score = 0;
+        LoadQuiz();
+
+        function loadQuiz(){
+            deselectAnswer();
+            const currentQuizData = quizData[currentQuiz];
+            questionEl.innerText = currentQuizData.question;
+
+            a_text.innerText = currentQuizData.a;
+            b_text.innerText = currentQuizData.b;
+            c_text.innerText = currentQuizData.c;
+            d_text.innerText = currentQuizData.d;
+           
+
+            const questionImage = document.getElementById('question-image');
+            questionImage.src = currentQuizData.image;
+        }
+        function deselectAnswer(){
+            answerEls.forEach(answerEl => answerEl.checked = false);
+        }
+        function getSelect(){
+            let answer;
+            answerEls.forEach(answerEl => {
+                if(answerEl.checked){
+                    answer = answerEl.id;
+                }
+            });
+            return answer;
+        }
+        submitBtn.addEventListener('clic', () =>{
+            const answer = getSelected();
+            if(answer){
+                if(answer === quizData[currentQuiz].correct){
+                    score++; 
+                }
+                currentQuiz++;
+                if(currentQuiz < quizData.length){
+                    loadQuiz();
+                } else {
+                    quiz.innerHTML = `
+                    <h2>Contestaste ${score}/${quizData.length} de preguntas correctamente</h2>
+                    <button onclick = "location.reload()">Volver</button>
+                    `
+                }
+            }
+        })
+
+    </script>
+
+    <footer>
+        <style>
+        body{
+            background-color: yellow;
+        
+        }
+        header{
+            background-color: black;
+            padding: 25px;
+        }
+        nav{
+            background-color: black;
+            padding: 10px;
+        }
+        section{
+            background-color: aliceblue;
+        }
+        article{
+            background-color: blueviolet;
+        }
+        aside{
+            background-color: cornflowerblue;
+            width: 80%;
+            float: right;
+        }
+        footer{
+            background-color: black;
+        }
+        body{
+            background-color: yellow;
+            padding: 40px;
+        }
+        .copyright{
+            color: aliceblue;
+        }
+        .container{
+            max-width:800px;
+            margin:0 auto;
+            padding:0 20px;
+        }
+        .footer-content{
+            display: flex;
+            flex-wrap: wrap;
+            color: aliceblue;
+        }
+        .footer-section{
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .about{
+            text-align:center;
+        }
+        .about h2{
+            margin-bottom:20px;
+        }
+        .about p{
+            font-size:18px;
+            line-height: 1.5;
+            margin-bottom:20px;
+        }
+        .contact-links a{
+            display:inline-block;
+            color:black;
+            font-size: 24px;
+            margin:0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        header{
+            color: red;
+            text-align: center;
+        }
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius: 100px;
+            border-style: solid;
+            border-color: black;
+            border-spacing: 12px;
+            border: 5px double aliceblue;
+            
+        }
+        table{
+            background-color: aliceblue;
+        }
+        #cc{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: black;
+        }
+        </style>
+        <hr>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div class="footer-content">
+            <div class="footer-section about">
+            <h2>Contactame</h2>
+            <p>Redes Sociales:</p>
+            <div class="contact-links">
+            <a href="https://www.facebook.com/miperfil" target="_blank"><i class="fab
+            fa-facebook"></i></a>
+            </div>
+            </div>
+            </div>
+            </div>
+        <div class="copyright">
+            <p>&copy; <span id="year"></span> Derechos reservados.</p></div>
+    </footer>
+</body>
+</html>
